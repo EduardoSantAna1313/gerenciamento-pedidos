@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+hibernate:
+  jdbc:
+    batch_size: 10
+
+spring:
+  application:
+    name: order
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create
+      show-sql: true
+    properties:
+      hibernate:
+        batch_size: 10
+        order_inserts: true
+        # generate_statistics: true
+
+  datasource:
+    url: ${DB_HOST:jdbc:postgresql://localhost:5432/orders}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres066252}
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: '*'
+    endpoint:
+      health:
+        show-details: always
+
+aws:
+  sqs:
+    queue-url: "http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/orders.fifo"
+    region: "us-east-1"
+    endpoint: "http://localhost:4566"

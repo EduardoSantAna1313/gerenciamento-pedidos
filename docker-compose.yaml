@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgresdb
+    ports:
+      - 5432:5432
+    network_mode: host
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres066252
+      POSTGRES_DB: orders
+    volumes:
+      - ./db/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: '0.5GB'
+
+  # SQS
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "4566:4566" # Porta para acessar o LocalStack
+      - "4571:4571"
+    environment:
+      - SERVICES=sqs
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - LAMBDA_EXECUTOR=docker
+      - LOCALSTACK_API_KEY=${LOCALSTACK_API_KEY-} # Se necessário
+    volumes:
+      - "./localstack:/var/lib/localstack"
+
+  aws-cli:
+    image: amazon/aws-cli:2.13.12
+    container_name: aws-cli
+    depends_on:
+      - localstack
+    entrypoint: >
+      /bin/sh -c "
+      aws --endpoint-url=http://localstack:4566 sqs create-queue
+      --queue-name orders.fifo
+      --attributes FifoQueue=true,ContentBasedDeduplication=true &&
+      tail -f /dev/null"
+    environment:
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      AWS_DEFAULT_REGION: us-east-1
+    networks:
+      default:
+        aliases:
+          - localstack
