@@ -1,6 +1,5 @@
 package simulations
 
-import br.com.edu.domain.Item
 import br.com.edu.domain.Order
 import domain.Item
 import io.gatling.javaapi.core.ChainBuilder
@@ -61,7 +60,7 @@ class OrderSimulation: Simulation() {
         val steps = listOf(
             constantUsersPerSec(4.0).during(5),
             constantUsersPerSec(4.0).during(10).randomized(),
-            constantUsersPerSec(45.0).during(400).randomized(),
+            constantUsersPerSec(60.0).during(3600).randomized(),
         )
 
         val scenario: ScenarioBuilder = scenario("Orders Scenario").exec(execs)
