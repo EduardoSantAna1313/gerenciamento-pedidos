@@ -1,58 +1,41 @@
-# gerenciamento-pedidos
+# Gerenciamento de Pedidos
 
-#### Arquitetura AS-IS
+Um sistema desenvolvido em Java 17 com Spring Boot para gerenciamento de pedidos. A aplicação utiliza Flyway para versionamento de banco de dados, Testcontainers para testes integrados e Test MVC para validação de endpoints. Inclui também testes de carga com Gatling localizados na pasta `tests/performance`.
+
+---
+
+## Funcionalidades
+
+- **Recebimento de pedidos via POST**: O sistema recebe os pedidos e os envia para uma fila **Amazon SQS**.
+- **Processamento de pedidos via job**: Um job consome mensagens da fila SQS, processa os pedidos e os armazena no banco de dados.
+- **Listagem de pedidos**: Endpoint para buscar todos os pedidos paginados.
+- **Detalhamento de pedidos**: Endpoint para visualizar informações detalhadas de um pedido específico.
+
+---
+
+## Arquitetura Atual (AS-IS)
+
+A arquitetura do sistema é representada pelo seguinte diagrama:
 
 ![](img/arch.png)
 
-#### Fluxograma
+---
+
+## Fluxograma
+
+O fluxo de funcionamento do sistema pode ser visualizado no diagrama abaixo:
 
 ![](img/fluxo.png)
 
-## Teste de performance
+---
+
+## Testes de Performance
+
+Os testes de carga foram configurados utilizando **Gatling**, e os resultados podem ser visualizados no seguinte gráfico:
 
 ![](img/simulation.png)
 
-## Rodando local
-
-1. Subindo infra, fila sqs e db.
+Os testes estão localizados na pasta `tests/performance` e podem ser executados com o seguinte comando:
 
 ```shell
-docker compose up
-```
-
-2. Subindo apps:
-
-```shell
-docker compose -f docker-compose-lb.yaml up
-```
-
-## Testando via nginx (load balancer)
-
-1. POST Orders
-
-```shell
-curl --request POST \
-  --url http://localhost:9999/v1/orders \
-  --header 'Content-Type: application/json' \
-  --header 'User-Agent: insomnia/10.0.0' \
-  --data '{
-	"created_by": "Eduardo",
-	"origin": "External-A",
-	"items": [
-		{
-			"prodcut": "umidificador de ar",
-			"price": 234.56,
-			"quantity": 2
-		}
-	]
-}'
-```
-
-2. GET oders
-
-```shell
-curl --request GET \
-  --url 'http://localhost:9999/v1/orders?page=40&size=100' \
-  --header 'Content-Type: application/json' \
-  --header 'User-Agent: insomnia/10.0.0'
-```
+./gradlew gatlingRun
