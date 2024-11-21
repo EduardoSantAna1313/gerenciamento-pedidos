@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,11 @@ public class Order {
 
     public void changeProcessed() {
         this.status = Status.PROCESSED;
+    }
+
+
+    public BigDecimal getTotal() {
+        return total.setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal calculateTotal() {

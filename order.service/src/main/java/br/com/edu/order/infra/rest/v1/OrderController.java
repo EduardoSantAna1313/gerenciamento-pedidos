@@ -1,8 +1,10 @@
 package br.com.edu.order.infra.rest.v1;
 
 import br.com.edu.order.application.usecases.CreateOrderUseCase;
+import br.com.edu.order.application.usecases.DetailOrdersUseCase;
 import br.com.edu.order.application.usecases.ListOrdersUseCase;
 import br.com.edu.order.domain.Order;
+import br.com.edu.order.domain.errors.OrderNotFoundException;
 import br.com.edu.order.infra.rest.v1.request.OrderRequest;
 import br.com.edu.order.infra.rest.v1.response.ListResponse;
 import br.com.edu.order.infra.rest.v1.response.OrderResponse;
@@ -21,9 +23,12 @@ public class OrderController {
 
     private final ListOrdersUseCase listOrdersUseCase;
 
-    public OrderController(final CreateOrderUseCase createOrderUseCase, final ListOrdersUseCase listOrdersUseCase) {
+    private final DetailOrdersUseCase detailOrdersUseCase;
+
+    public OrderController(CreateOrderUseCase createOrderUseCase, ListOrdersUseCase listOrdersUseCase, DetailOrdersUseCase detailOrdersUseCase) {
         this.createOrderUseCase = createOrderUseCase;
         this.listOrdersUseCase = listOrdersUseCase;
+        this.detailOrdersUseCase = detailOrdersUseCase;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,6 +54,15 @@ public class OrderController {
                 .build();
 
         return ResponseEntity.ok(listResponse);
+    }
+
+    @GetMapping(value = "/{order_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> detail(@PathVariable("order_id") String orderId) {
+        final var result = detailOrdersUseCase.execute(orderId).orElseThrow(OrderNotFoundException::new);
+
+        final var response = OrderResponse.fromModel(result);
+
+        return ResponseEntity.ok(response);
     }
 
 }

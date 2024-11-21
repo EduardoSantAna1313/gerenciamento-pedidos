@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +20,7 @@ class OrderTest {
         assertNotNull(order.getCreated());
         assertNotNull(order.getUpdated());
         assertNotNull(order.getId());
-        assertEquals(BigDecimal.ZERO, order.getTotal());
+        assertEquals(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP), order.getTotal());
     }
 
     @Test
