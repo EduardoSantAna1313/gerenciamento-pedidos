@@ -5,7 +5,7 @@ services:
     container_name: app1
     network_mode: host
     ports:
-      - 8081:8080
+      - 8081:8081
     environment:
       SERVER_PORT: 8081
     deploy:
@@ -20,9 +20,24 @@ services:
     container_name: app2
     network_mode: host
     ports:
-      - 8082:8080
+      - 8082:8082
     environment:
       SERVER_PORT: 8082
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+
+  app3:
+    build:
+      context: order.service
+    container_name: app3
+    network_mode: host
+    ports:
+      - 8083:8083
+    environment:
+      SERVER_PORT: 8083
     deploy:
       resources:
         limits:
@@ -37,6 +52,7 @@ services:
     depends_on:
       - app1
       - app2
+      - app3
     ports:
       - "9999:9999"
     deploy:

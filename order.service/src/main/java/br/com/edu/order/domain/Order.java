@@ -15,8 +15,7 @@ import java.util.UUID;
 public class Order {
 
     @Id
-    @GeneratedValue
-    @Column( columnDefinition = "uuid", updatable = false )
+    @Column(columnDefinition = "uuid")
     private UUID id;
 
     @Enumerated(EnumType.STRING)
@@ -38,7 +37,8 @@ public class Order {
     @Column(name = "total")
     private BigDecimal total;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    @OneToMany(cascade = CascadeType.MERGE)
     private List<Item> items;
 
     public Order() {
@@ -57,18 +57,28 @@ public class Order {
         return items;
     }
 
+    public void addItem(final Item item) {
+        item.setOrderId(this.id);
+        items.add(item);
+
+        calculateTotal();
+    }
+
     public void setItems(List<Item> items) {
         if (items == null) {
             items = new ArrayList<>();
         }
         this.items = items;
         this.total = calculateTotal();
+        items.forEach(i -> i.setOrderId(this.id));
+    }
+
+    public void changeProcessed() {
+        this.status = Status.PROCESSED;
     }
 
     public BigDecimal calculateTotal() {
-        if (total == null) {
-            total = getItems().stream().map(Item::totalItem).reduce(BigDecimal.ZERO, BigDecimal::add);
-        }
+        total = getItems().stream().map(Item::totalItem).reduce(BigDecimal.ZERO, BigDecimal::add);
         return total;
     }
 }

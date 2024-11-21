@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:latest
+    image: postgres:16
     container_name: postgresdb
     ports:
       - 5432:5432
@@ -9,8 +9,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres066252
       POSTGRES_DB: orders
-    volumes:
-      - ./db/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     deploy:
       resources:
         limits:

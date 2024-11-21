@@ -32,7 +32,6 @@ public class CreateOrderUseCase {
     public UUID execute(final Order request) {
 
         try {
-
             final var messageBody = mapper.writeValueAsString(request);
 
             final var sendMessageRequest = SendMessageRequest.builder()

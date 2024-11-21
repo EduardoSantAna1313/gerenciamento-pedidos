@@ -4,6 +4,7 @@ import br.com.edu.order.domain.Order;
 import br.com.edu.order.domain.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,18 +18,19 @@ public class OrderService {
         this.repository = repository;
     }
 
+    @Transactional
     public void save(final Order order) {
-        var id = repository.save(order);
-        log.info("Saved order {}", id);
+        var saved = repository.save(order);
+        log.info("Saved order {}", saved.getId());
     }
 
+    @Transactional
     public void saveAll(final List<Order> orders) {
-        log.info("Batch insert {} orders", orders.size());
-
+        log.info("Inserting {} orders", orders.size());
         orders.forEach(Order::calculateTotal);
+        orders.forEach(Order::changeProcessed);
 
-        var saved = repository.saveAll(orders);
+        final var saved = repository.saveAll(orders);
         log.info("Saved {} orders", saved);
-        log.info("Qty saved {} orders", saved.size());
     }
 }

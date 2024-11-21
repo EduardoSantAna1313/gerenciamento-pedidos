@@ -10,13 +10,13 @@ spring:
     name: order
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    # show-sql: true
     hibernate:
-      ddl-auto: create
-      show-sql: true
+      ddl-auto: validate
     properties:
       hibernate:
-        batch_size: 10
-        order_inserts: true
+        #batch_size: 10
+        #order_inserts: true
         # generate_statistics: true
 
   datasource:
@@ -24,6 +24,11 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:postgres066252}
+
+  flyway:
+    user: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres066252}
+    url: ${DB_HOST:jdbc:postgresql://localhost:5432/orders}
 
   management:
     endpoints:
@@ -39,3 +44,7 @@ aws:
     queue-url: "http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/orders.fifo"
     region: "us-east-1"
     endpoint: "http://localhost:4566"
+
+app:
+  jobs:
+    poolSize: 5

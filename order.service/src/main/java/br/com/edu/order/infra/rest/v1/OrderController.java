@@ -4,6 +4,9 @@ import br.com.edu.order.application.usecases.CreateOrderUseCase;
 import br.com.edu.order.application.usecases.ListOrdersUseCase;
 import br.com.edu.order.domain.Order;
 import br.com.edu.order.infra.rest.v1.request.OrderRequest;
+import br.com.edu.order.infra.rest.v1.response.ListResponse;
+import br.com.edu.order.infra.rest.v1.response.OrderResponse;
+import br.com.edu.order.infra.rest.v1.response.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +21,7 @@ public class OrderController {
 
     private final ListOrdersUseCase listOrdersUseCase;
 
-    public OrderController(CreateOrderUseCase createOrderUseCase, ListOrdersUseCase listOrdersUseCase) {
+    public OrderController(final CreateOrderUseCase createOrderUseCase, final ListOrdersUseCase listOrdersUseCase) {
         this.createOrderUseCase = createOrderUseCase;
         this.listOrdersUseCase = listOrdersUseCase;
     }
@@ -38,9 +41,14 @@ public class OrderController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> list(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                   @RequestParam(value = "size", required = false, defaultValue = "100") Integer pageSize) {
-        final var list = listOrdersUseCase.execute(page, pageSize);
+        final var result = listOrdersUseCase.execute(page, pageSize);
 
-        return ResponseEntity.ok(list);
+        final var listResponse = ListResponse.builder()
+                .content(result.getContent().stream().map(OrderResponse::fromModel).toList())
+                .page(new Page(result.getNumber(), result.getSize(), result.getTotalPages(), result.getTotalElements()))
+                .build();
+
+        return ResponseEntity.ok(listResponse);
     }
 
 }
