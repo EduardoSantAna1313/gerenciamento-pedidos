@@ -48,6 +48,13 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>2.0.21</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>io.gatling</groupId>
@@ -59,9 +66,6 @@
                     <includes>
                         <include>simulations**</include>
                     </includes>
-                    <excludes>
-                        <exclude>examples.**</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
@@ -88,6 +92,19 @@
             <version>3.13.1</version>
         </dependency>
 
+        <!-- jackson -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
+            <version>2.18.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.18.1</version>
+        </dependency>
+
+        <!-- tests -->
 
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -100,6 +117,12 @@
             <artifactId>junit-jupiter</artifactId>
             <version>5.10.0</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.18.1</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

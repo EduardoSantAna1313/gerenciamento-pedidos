@@ -1,5 +1,8 @@
 package simulations
 
+import br.com.edu.domain.Item
+import br.com.edu.domain.Order
+import domain.Item
 import io.gatling.javaapi.core.ChainBuilder
 import io.gatling.javaapi.core.CoreDsl.*
 import io.gatling.javaapi.core.ScenarioBuilder
@@ -38,22 +41,18 @@ class OrderSimulation: Simulation() {
         val quantity = rand.nextInt(1, 10)
 
         val price = BigDecimal.valueOf(rand.nextDouble(0.0, 10000.0)).setScale(2, RoundingMode.HALF_UP)
-        val body = """
-            {
-            	"created_by": "Eduardo",
-            	"origin": "Performance Tests",
-            	"items": [
-            		{
-            			"prodcut": "umidificador de ar",
-            			"price": $price,
-            			"quantity": $quantity
-            		}
-            	]
-            }
-        """.trimIndent()
 
-        //println(body)
-        return body;
+        val order = Order(createdBy = "Gatling",
+            items = mutableListOf(
+                Item(
+                product = "umidificador",
+                price = price,
+                quantity = quantity
+            )
+            )
+        )
+
+        return order.toJson();
     }
 
 
