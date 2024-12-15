@@ -1,9 +1,16 @@
+/* (C)2024 */
 package br.com.edu.order.infra.rest.v1.detail;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import br.com.edu.order.DatabaseConfiguration;
 import br.com.edu.order.domain.Item;
 import br.com.edu.order.domain.Order;
 import br.com.edu.order.domain.repository.OrderRepository;
+import java.math.BigDecimal;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,13 +22,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import software.amazon.awssdk.services.sqs.SqsClient;
-
-import java.math.BigDecimal;
-import java.util.UUID;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Import(DatabaseConfiguration.class)
 @SpringBootTest(

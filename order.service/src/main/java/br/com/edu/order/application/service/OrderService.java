@@ -1,12 +1,12 @@
+/* (C)2024 */
 package br.com.edu.order.application.service;
 
 import br.com.edu.order.domain.Order;
 import br.com.edu.order.domain.repository.OrderRepository;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Slf4j
 @Service

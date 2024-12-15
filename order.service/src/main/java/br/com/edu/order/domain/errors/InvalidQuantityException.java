@@ -1,3 +1,4 @@
+/* (C)2024 */
 package br.com.edu.order.domain.errors;
 
 import java.text.MessageFormat;

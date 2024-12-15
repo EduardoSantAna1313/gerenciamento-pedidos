@@ -1,3 +1,4 @@
+/* (C)2024 */
 package br.com.edu.order;
 
 import org.springframework.boot.SpringApplication;

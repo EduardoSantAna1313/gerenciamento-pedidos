@@ -1,4 +1,11 @@
+/* (C)2024 */
 package br.com.edu.order.infra.rest.v1.create;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import br.com.edu.order.DatabaseConfiguration;
 import br.com.edu.order.domain.repository.OrderRepository;
@@ -16,12 +23,6 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.ReceiveMessageRequest;
 import software.amazon.awssdk.services.sqs.model.ReceiveMessageResponse;
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Import(DatabaseConfiguration.class)
 @SpringBootTest(

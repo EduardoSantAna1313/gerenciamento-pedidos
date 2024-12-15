@@ -1,17 +1,17 @@
+/* (C)2024 */
 package br.com.edu.order.infra.rest.v1.response;
 
 import br.com.edu.order.domain.Order;
 import br.com.edu.order.domain.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Data

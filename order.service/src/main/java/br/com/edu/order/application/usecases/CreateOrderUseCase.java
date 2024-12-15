@@ -1,15 +1,15 @@
+/* (C)2024 */
 package br.com.edu.order.application.usecases;
 
 import br.com.edu.order.domain.Order;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
-
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -23,7 +23,9 @@ public class CreateOrderUseCase {
 
     private final ObjectMapper mapper;
 
-    public CreateOrderUseCase(SqsClient sqsClient, @Value("${aws.sqs.queue-url}") String queueUrl, ObjectMapper mapper) {
+    public CreateOrderUseCase(final SqsClient sqsClient,
+                              @Value("${aws.sqs.queue-url}") final String queueUrl,
+                              final ObjectMapper mapper) {
         this.sqsClient = sqsClient;
         this.queueUrl = queueUrl;
         this.mapper = mapper;
@@ -51,6 +53,3 @@ public class CreateOrderUseCase {
         }
     }
 }
-
-
-

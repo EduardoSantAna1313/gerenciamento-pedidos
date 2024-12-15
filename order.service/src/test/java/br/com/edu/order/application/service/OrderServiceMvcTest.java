@@ -1,8 +1,12 @@
+/* (C)2024 */
 package br.com.edu.order.application.service;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import br.com.edu.order.DatabaseConfiguration;
 import br.com.edu.order.domain.Order;
 import br.com.edu.order.domain.repository.OrderRepository;
+import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,11 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @Import(DatabaseConfiguration.class)
 @SpringBootTest(

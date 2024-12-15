@@ -1,11 +1,11 @@
+/* (C)2024 */
 package br.com.edu.order.infra.rest.v1.request;
 
 import br.com.edu.order.domain.Item;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class OrderRequest {

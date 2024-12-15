@@ -1,14 +1,14 @@
+/* (C)2024 */
 package br.com.edu.order.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lombok.Data;
 
 @Data
 @Entity

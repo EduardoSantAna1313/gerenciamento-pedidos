@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: localstack
+  namespace: order
+  labels:
+    app: localstack
+spec:
+  containers:
+    - name: localstack
+      image: localstack/localstack:latest
+      ports:
+        - containerPort: 4566
+        - containerPort: 4571
+      env:
+        - name: SERVICES
+          value: "sqs"
+        - name: DEBUG
+          value: "1"
+        - name: DATA_DIR
+          value: "/tmp/localstack/data"
+        - name: LAMBDA_EXECUTOR
+          value: "docker"
+      volumeMounts:
+        - name: localstack-data
+          mountPath: /var/lib/localstack
+    - name: aws-cli
+      image: amazon/aws-cli:2.13.12
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          aws --endpoint-url=http://localhost:4566 sqs create-queue \
+          --queue-name orders.fifo \
+          --attributes FifoQueue=true,ContentBasedDeduplication=true && \
+          tail -f /dev/null
+      env:
+        - name: AWS_ACCESS_KEY_ID
+          value: "test"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "test"
+        - name: AWS_DEFAULT_REGION
+          value: "us-east-1"
+  volumes:
+    - name: localstack-data
+      hostPath:
+        path: localstack
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: localstack-service
+  namespace: order
+  labels:
+    app: localstack-service
+spec:
+  ports:
+    - name: tcp-4566
+      port: 4566
+      protocol: TCP
+      targetPort: 4566
+    - name: tcp-4571
+      port: 4571
+      protocol: TCP
+      targetPort: 4571
+  selector:
+    app: localstack
+  type: ClusterIP

@@ -17,3 +17,19 @@
 - Flyway
 - Docker
 - Testcontainers
+- Spotless (formatador)
+
+### Docker
+
+Buildar a imagem:
+
+```sh
+mvn clean package
+docker build -t order:v1 .
+```
+
+### Formatar codigo
+
+```sh
+mvn spotless:apply
+```

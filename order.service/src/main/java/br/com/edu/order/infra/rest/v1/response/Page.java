@@ -1,3 +1,4 @@
+/* (C)2024 */
 package br.com.edu.order.infra.rest.v1.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

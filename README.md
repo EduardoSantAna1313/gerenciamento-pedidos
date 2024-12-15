@@ -19,6 +19,12 @@ A arquitetura do sistema é representada pelo seguinte diagrama:
 
 ![](img/arch.png)
 
+## Arquitetura atual com kubernetes:
+
+Arquitetura usando infra kubernetes.
+
+![](img/arch-k8s-local.png)
+
 ---
 
 ## Fluxograma
@@ -38,4 +44,4 @@ Os testes de carga foram configurados utilizando **Gatling**, e os resultados po
 Os testes estão localizados na pasta `tests/performance` e podem ser executados com o seguinte comando:
 
 ```shell
-./gradlew gatlingRun
+./mvn gatling:test

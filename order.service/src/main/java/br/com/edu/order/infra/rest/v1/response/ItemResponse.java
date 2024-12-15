@@ -1,11 +1,11 @@
+/* (C)2024 */
 package br.com.edu.order.infra.rest.v1.response;
 
 import br.com.edu.order.domain.Item;
-import lombok.Builder;
-import lombok.Data;
-
 import java.math.BigDecimal;
 import java.util.UUID;
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder

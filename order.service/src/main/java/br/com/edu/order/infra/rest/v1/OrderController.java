@@ -1,6 +1,8 @@
+/* (C)2024 */
 package br.com.edu.order.infra.rest.v1;
 
 import br.com.edu.order.application.usecases.CreateOrderUseCase;
+import br.com.edu.order.application.usecases.DeleteOrdersUseCase;
 import br.com.edu.order.application.usecases.DetailOrdersUseCase;
 import br.com.edu.order.application.usecases.ListOrdersUseCase;
 import br.com.edu.order.domain.Order;
@@ -9,11 +11,10 @@ import br.com.edu.order.infra.rest.v1.request.OrderRequest;
 import br.com.edu.order.infra.rest.v1.response.ListResponse;
 import br.com.edu.order.infra.rest.v1.response.OrderResponse;
 import br.com.edu.order.infra.rest.v1.response.Page;
+import java.net.URI;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
 
 @RestController
 @RequestMapping("/v1/orders")
@@ -25,10 +26,16 @@ public class OrderController {
 
     private final DetailOrdersUseCase detailOrdersUseCase;
 
-    public OrderController(CreateOrderUseCase createOrderUseCase, ListOrdersUseCase listOrdersUseCase, DetailOrdersUseCase detailOrdersUseCase) {
+    private final DeleteOrdersUseCase deleteOrdersUseCase;
+
+    public OrderController(CreateOrderUseCase createOrderUseCase,
+                           ListOrdersUseCase listOrdersUseCase,
+                           DetailOrdersUseCase detailOrdersUseCase,
+                           DeleteOrdersUseCase deleteOrdersUseCase) {
         this.createOrderUseCase = createOrderUseCase;
         this.listOrdersUseCase = listOrdersUseCase;
         this.detailOrdersUseCase = detailOrdersUseCase;
+        this.deleteOrdersUseCase = deleteOrdersUseCase;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -65,4 +72,11 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping
+    public ResponseEntity<?> deleteAll() {
+
+        deleteOrdersUseCase.execute();
+
+        return ResponseEntity.noContent().build();
+    }
 }

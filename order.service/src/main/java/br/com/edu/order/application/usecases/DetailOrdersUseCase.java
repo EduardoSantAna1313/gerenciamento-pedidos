@@ -1,11 +1,11 @@
+/* (C)2024 */
 package br.com.edu.order.application.usecases;
 
 import br.com.edu.order.domain.Order;
 import br.com.edu.order.domain.repository.OrderRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.stereotype.Service;
 
 @Service
 public class DetailOrdersUseCase {

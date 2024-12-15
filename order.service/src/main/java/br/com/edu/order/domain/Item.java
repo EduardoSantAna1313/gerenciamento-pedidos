@@ -1,12 +1,12 @@
+/* (C)2024 */
 package br.com.edu.order.domain;
 
 import br.com.edu.order.domain.errors.InvalidPriceException;
 import br.com.edu.order.domain.errors.InvalidQuantityException;
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.math.BigDecimal;
 import java.util.UUID;
+import lombok.Data;
 
 @Data
 @Entity

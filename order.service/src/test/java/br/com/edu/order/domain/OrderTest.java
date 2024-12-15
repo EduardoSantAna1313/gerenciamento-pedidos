@@ -1,14 +1,14 @@
+/* (C)2024 */
 package br.com.edu.order.domain;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import br.com.edu.order.domain.errors.InvalidPriceException;
 import br.com.edu.order.domain.errors.InvalidQuantityException;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class OrderTest {
 
