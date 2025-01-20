@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+hibernate:
+  jdbc:
+    batch_size: 10
+
+spring:
+  application:
+    name: order
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        transaction:
+          coordinator_class: jdbc
+        #batch_size: 10
+        #order_inserts: true
+        # generate_statistics: true
+
+  datasource:
+    url: ${DB_HOST:jdbc:postgresql://localhost:5432/orders}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres066252}
+
+  flyway:
+    user: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres066252}
+    url: ${DB_HOST:jdbc:postgresql://localhost:5432/orders}
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: '*'
+    endpoint:
+      health:
+        show-details: always
+
+aws:
+  sqs:
+    queue-url: ${AWS_QUEUE_URL:http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/orders.fifo}
+    region: ${AWS_REGION:us-east-1}
+    endpoint: ${AWS_SQS_ENDPOINT:http://localhost:4566}
+
+app:
+  jobs:
+    poolSize: 5
