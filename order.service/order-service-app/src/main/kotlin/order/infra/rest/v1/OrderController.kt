@@ -8,7 +8,7 @@ import order.infra.rest.v1.response.OrderResponse
 import order.infra.rest.v1.response.Page
 import order.usecases.CreateOrderUseCase
 import order.usecases.DeleteOrdersUseCase
-import order.usecases.DetailOrdersUseCase
+import order.usecases.DetailOrderUseCase
 import order.usecases.ListOrdersUseCase
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -20,7 +20,7 @@ import java.net.URI
 class OrderController(
     private val createOrderUseCase: CreateOrderUseCase,
     private val listOrdersUseCase: ListOrdersUseCase,
-    private val detailOrdersUseCase: DetailOrdersUseCase,
+    private val detailOrderUseCase: DetailOrderUseCase,
     private val deleteOrdersUseCase: DeleteOrdersUseCase
 ) {
 
@@ -61,8 +61,8 @@ class OrderController(
     }
 
     @GetMapping(value = ["/{order_id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun detail(@PathVariable("order_id") orderId: String?): ResponseEntity<*> {
-        val result = detailOrdersUseCase.execute(orderId).orElseThrow { OrderNotFoundException() }
+    fun detail(@PathVariable("order_id", required = true) orderId: String?): ResponseEntity<*> {
+        val result = detailOrderUseCase.execute(orderId).orElseThrow { OrderNotFoundException() }
 
         val response = OrderResponse.fromModel(result)
 

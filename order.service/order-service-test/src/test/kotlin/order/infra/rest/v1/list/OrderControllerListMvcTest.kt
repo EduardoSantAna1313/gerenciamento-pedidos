@@ -22,11 +22,12 @@ import software.amazon.awssdk.services.sqs.SqsClient
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 internal class OrderControllerListMvcTest {
+
     @Autowired
-    private val mockMvc: MockMvc? = null
+    lateinit var mockMvc: MockMvc
 
     @MockBean
-    private val sqsClient: SqsClient? = null
+    private lateinit var sqsClient: SqsClient
 
     @Autowired
     lateinit var repository: OrderRepository
@@ -48,7 +49,7 @@ internal class OrderControllerListMvcTest {
             orders.add(order)
         }
 
-        mockMvc!!.perform(
+        mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/orders")
                 .accept(MediaType.APPLICATION_JSON)
         ).andExpect(MockMvcResultMatchers.status().isOk())
@@ -69,7 +70,7 @@ internal class OrderControllerListMvcTest {
             repository.save(order)
         }
 
-        mockMvc!!.perform(
+        mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/orders?page=0&size=2")
                 .accept(MediaType.APPLICATION_JSON)
         ).andExpect(MockMvcResultMatchers.status().isOk())
