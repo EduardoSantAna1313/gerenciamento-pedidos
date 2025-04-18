@@ -49,3 +49,6 @@ aws:
 app:
   jobs:
     poolSize: 5
+
+token:
+  url: http://localhost:8080
