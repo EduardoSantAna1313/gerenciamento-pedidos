@@ -11,6 +11,8 @@ interface OrderRepository {
 
     fun findById(id: UUID): Optional<Order>
 
+    fun findByIdForUpdate(id: UUID): Optional<Order>
+
     fun save(order: Order): Order
 
     fun deleteAll()

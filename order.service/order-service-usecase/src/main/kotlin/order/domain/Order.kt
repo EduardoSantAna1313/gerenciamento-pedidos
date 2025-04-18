@@ -1,6 +1,7 @@
 package order.domain
 
 import jakarta.persistence.*
+import org.springframework.context.annotation.Lazy
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDateTime
@@ -37,9 +38,8 @@ class Order(
     var total: BigDecimal = BigDecimal.ZERO
         get() = field.setScale(2, RoundingMode.HALF_UP)
 
-
     @JoinColumn(name = "order_id")
-    @OneToMany(cascade = [CascadeType.MERGE])
+    @OneToMany(cascade = [CascadeType.MERGE], fetch = FetchType.EAGER)
     var items: MutableList<Item> = mutableListOf()
         set(items) {
             field = items

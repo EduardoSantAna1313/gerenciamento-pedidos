@@ -1,11 +1,16 @@
 package order.service
 
+import jakarta.persistence.LockModeType
+import order.domain.Item
 import order.domain.Order
 import order.repository.OrderRepository
 import org.slf4j.LoggerFactory
+import org.springframework.data.jpa.repository.Lock
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.function.Consumer
+import java.time.LocalDateTime
+import java.util.Optional
+import java.util.UUID
 
 @Service
 class OrderService (
@@ -14,25 +19,39 @@ class OrderService (
 
     private val logger = LoggerFactory.getLogger(OrderService::class.java)
 
+    @Lock(LockModeType.PESSIMISTIC_READ)
     @Transactional
-    fun save(order: Order) {
-        val saved = repository.save(order)
-        logger.info("Saved order {}", saved.id)
+    fun get(id: UUID): Optional<Order> {
+        return repository.findById(id)
     }
 
     @Transactional
-    fun saveAll(orders: List<Order>) {
-        logger.info("Inserting {} orders", orders.size)
-        orders.forEach(Consumer { obj: Order -> obj.calculateTotal() })
-        orders.forEach(Consumer { obj: Order -> obj.changeProcessed() })
+    fun save(order: Order): Order {
+        return repository.save(order)
+    }
 
-        val saved = mutableListOf<Order>()
+    @Transactional
+    fun update(id: UUID, items: List<Item>) {
 
-        orders.forEach {
-            saved.add(repository.save(it))
+        try {
+
+            val order = repository.findByIdForUpdate(id)
+            order.ifPresent {
+                val initItems = it.items.size
+                it.updated = LocalDateTime.now()
+                it.items = items.toMutableList()
+
+                it.calculateTotal()
+
+                it.items.size
+
+                repository.save(it)
+
+                logger.info("Atualizado order $id start: $initItems, now: ${it.items.size}")
+
+            }
+        }catch (error: Exception) {
+            logger.error("Ocorreu um erro ao fazer update {}", error.message)
         }
-
-        logger.info("Saved {} orders", saved)
     }
-
 }

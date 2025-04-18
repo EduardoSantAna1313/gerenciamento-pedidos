@@ -14,7 +14,8 @@ import java.util.*
 
 class OrderSimulation: Simulation() {
 
-    private val httpProtocol: HttpProtocolBuilder = http.baseUrl("http://kubernetes.docker.internal/v1")
+    //private val httpProtocol: HttpProtocolBuilder = http.baseUrl("http://kubernetes.docker.internal/v1")
+    private val httpProtocol: HttpProtocolBuilder = http.baseUrl("http://localhost:8080/v1")
         .acceptHeader("application/json")
         .contentTypeHeader("application/json")
 
