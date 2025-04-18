@@ -1,5 +1,6 @@
-package br.com.edu.order.base.mock
+package br.com.edu.base.mock.config
 
+import br.com.edu.base.mock.MockBaseTest
 import org.mockserver.client.MockServerClient
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
@@ -9,7 +10,7 @@ open class MockServerConfiguration {
 
     @Bean
     fun mockServerClient(): MockServerClient {
-        val container = MockBaseTest.mockServerContainer
+        val container = MockBaseTest.Companion.mockServerContainer
         return MockServerClient(container.host, container.serverPort)
     }
 

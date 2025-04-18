@@ -1,6 +1,6 @@
 package br.com.edu.order.infra.rest.v1.list
 
-import br.com.edu.order.base.db.DatabaseConfiguration
+import br.com.edu.base.db.DatabaseConfiguration
 import br.com.edu.order.domain.Order
 import br.com.edu.order.repository.OrderRepository
 import org.hamcrest.Matchers

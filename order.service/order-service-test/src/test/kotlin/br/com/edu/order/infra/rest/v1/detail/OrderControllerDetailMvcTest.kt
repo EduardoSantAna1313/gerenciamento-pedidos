@@ -1,6 +1,6 @@
 package br.com.edu.order.infra.rest.v1.detail
 
-import br.com.edu.order.base.db.DatabaseConfiguration
+import br.com.edu.base.db.DatabaseConfiguration
 import br.com.edu.order.domain.Item
 import br.com.edu.order.domain.Order
 import br.com.edu.order.repository.OrderRepository

@@ -1,4 +1,4 @@
-package br.com.edu.order.base.db
+package br.com.edu.base.db
 
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection

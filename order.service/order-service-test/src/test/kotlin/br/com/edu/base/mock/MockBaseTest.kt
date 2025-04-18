@@ -1,6 +1,9 @@
-package br.com.edu.order.base.mock
+package br.com.edu.base.mock
 
-import br.com.edu.order.base.db.PostgresqlBaseTest
+import br.com.edu.base.db.PostgresqlBaseTest
+import br.com.edu.base.mock.config.MockServerConfiguration
+import br.com.edu.base.mock.extension.MockPathExtension
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockserver.client.MockServerClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -16,6 +19,7 @@ import org.testcontainers.utility.DockerImageName
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @Import(MockServerConfiguration::class)
+@ExtendWith(MockPathExtension::class)
 abstract class MockBaseTest {
 
     @Autowired

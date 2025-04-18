@@ -1,6 +1,7 @@
 package br.com.edu.token
 
-import br.com.edu.order.base.mock.MockBaseTest
+import br.com.edu.base.mock.MockBaseTest
+import br.com.edu.base.mock.extension.MockRequest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockserver.model.HttpRequest
@@ -21,6 +22,15 @@ class TokenServiceTest: MockBaseTest() {
     @BeforeEach
     fun setup() {
         mockClient.reset()
+    }
+
+    @Test
+    @MockRequest(["src/test/resources/mocks/token.json"])
+    fun shouldTestWithAnnotation() {
+        val token = tokenInputPort.generate("my-client-id", "my-client-secret")
+        assertEquals("uuid", token.accessToken)
+        assertEquals(300, token.expiresIn)
+        assertEquals("token", token.refreshToken)
     }
 
     @Test

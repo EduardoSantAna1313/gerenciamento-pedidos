@@ -1,6 +1,6 @@
 package br.com.edu.order.infra.rest.v1.create
 
-import br.com.edu.order.base.db.DatabaseConfiguration
+import br.com.edu.base.db.DatabaseConfiguration
 import br.com.edu.order.repository.OrderRepository
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
