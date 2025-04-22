@@ -1,24 +1,25 @@
-package br.com.edu.order.bootstrap
+package br.com.edu.order.concurrent
 
+import br.com.edu.base.db.PostgresqlBaseTest
 import br.com.edu.order.domain.Item
 import br.com.edu.order.domain.Order
 import br.com.edu.order.service.OrderService
+import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
-import org.springframework.boot.CommandLineRunner
-import org.springframework.stereotype.Component
+import org.springframework.beans.factory.annotation.Autowired
 import java.math.BigDecimal
 import java.util.concurrent.Executors
 import kotlin.random.Random
 
-//@Component
-class Startup (
-    val service: OrderService
-): CommandLineRunner {
+class ConcurrentTest : PostgresqlBaseTest() {
 
-    private val logger = LoggerFactory.getLogger(Startup::class.java)
+    private val logger = LoggerFactory.getLogger(ConcurrentTest::class.java)
 
-    override fun run(vararg args: String?) {
+    @Autowired
+    private lateinit var service: OrderService
 
+    @Test
+    fun testConcurrent() {
         logger.info("""
             Inciando bootstrap
         """.trimIndent())
@@ -49,7 +50,7 @@ class Startup (
         """.trimIndent())
     }
 
-    fun listItems(max: Int): MutableList<Item> {
+    private fun listItems(max: Int): MutableList<Item> {
         val list = mutableListOf<Item>()
         for (i in 0..max) {
             val item = Item()
