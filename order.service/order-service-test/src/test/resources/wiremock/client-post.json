@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/clients"
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "jsonBody": {
+      "message": "Hello, $(name)!"
+    }
+  }
+}

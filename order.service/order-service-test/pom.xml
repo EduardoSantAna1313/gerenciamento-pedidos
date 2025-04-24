@@ -158,6 +158,20 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- wiremock -->
+        <dependency>
+            <groupId>org.wiremock.integrations.testcontainers</groupId>
+            <artifactId>wiremock-testcontainers-module</artifactId>
+            <version>1.0-alpha-13</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock-standalone</artifactId>
+            <version>3.12.1</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- layer -->
         <dependency>
             <groupId>com.tngtech.archunit</groupId>

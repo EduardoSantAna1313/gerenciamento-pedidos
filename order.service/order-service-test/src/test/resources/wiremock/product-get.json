@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/products"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "jsonBody": {
+      "message": "Hello, ${'$'}(name)!"
+    }
+  }
+}
