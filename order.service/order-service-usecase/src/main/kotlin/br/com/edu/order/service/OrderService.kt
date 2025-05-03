@@ -5,6 +5,8 @@ import br.com.edu.order.domain.Item
 import br.com.edu.order.domain.Order
 import br.com.edu.order.repository.OrderRepository
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.Lock
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -28,6 +30,11 @@ class OrderService (
     @Transactional
     fun save(order: Order): Order {
         return repository.save(order)
+    }
+
+    @Transactional
+    fun list(): Page<Order> {
+        return repository.findAll(Pageable.ofSize(20))
     }
 
     @Transactional

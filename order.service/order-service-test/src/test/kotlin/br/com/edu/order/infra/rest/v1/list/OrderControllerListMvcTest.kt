@@ -1,6 +1,6 @@
 package br.com.edu.order.infra.rest.v1.list
 
-import br.com.edu.base.db.DatabaseConfiguration
+import br.com.edu.base.mockmvn.MockMvcBaseTest
 import br.com.edu.order.domain.Order
 import br.com.edu.order.repository.OrderRepository
 import org.hamcrest.Matchers
@@ -8,23 +8,13 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import software.amazon.awssdk.services.sqs.SqsClient
 
-@Import(DatabaseConfiguration::class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
-internal class OrderControllerListMvcTest {
-
-    @Autowired
-    lateinit var mockMvc: MockMvc
+class OrderControllerListMvcTest: MockMvcBaseTest() {
 
     @MockBean
     private lateinit var sqsClient: SqsClient

@@ -1,0 +1,1 @@
+DELETE FROM public.orders WHERE 1 = 1;
