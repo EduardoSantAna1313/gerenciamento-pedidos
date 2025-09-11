@@ -1,75 +1,69 @@
 package simulations
 
-import br.com.edu.domain.Order
-import domain.Item
-import io.gatling.javaapi.core.ChainBuilder
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import io.gatling.javaapi.core.CoreDsl.*
-import io.gatling.javaapi.core.ScenarioBuilder
 import io.gatling.javaapi.core.Simulation
 import io.gatling.javaapi.http.HttpDsl.*
-import io.gatling.javaapi.http.HttpProtocolBuilder
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
 
-class OrderSimulation: Simulation() {
+class OrderSimulation : Simulation() {
 
-    //private val httpProtocol: HttpProtocolBuilder = http.baseUrl("http://kubernetes.docker.internal/v1")
-    private val httpProtocol: HttpProtocolBuilder = http.baseUrl("http://localhost:8080/v1")
+    private val httpProtocol = http.baseUrl("http://localhost:8080/v1")
         .acceptHeader("application/json")
         .contentTypeHeader("application/json")
 
-    private val execs: ChainBuilder =
-        exec(
-            http("POST")
-                .post ("/orders")
-                .body(StringBody { createBody() } )
-                .check(
-                    status().`is`(201)
-                )
-        )
-        // Print the response body
-        .exec{ session ->
-            //    println(session.get("responseBody"))
-            session
-        }
+    private val objectMapper = ObjectMapper().registerModule(KotlinModule.Builder().build())
 
+    private val createOrder = exec { session ->
+        //val numOrder = Random().nextLong(1, 100000)
+        val numOrder = 1000000
+        session.set("numOrder", numOrder)
+    }.exec(
+        http("Create Sales Order")
+            .post("/sales-orders/#{numOrder}")
+            .body(StringBody { session -> createBody(session.getLong("numOrder")) })
+            .check(status().`is`(201))
+    )
 
-    private fun createBody(): String {
+    private fun createBody(numOrder: Long): String {
         val rand = Random()
-
-        val quantity = rand.nextInt(1, 10)
-
-        val price = BigDecimal.valueOf(rand.nextDouble(0.0, 10000.0)).setScale(2, RoundingMode.HALF_UP)
-
-        val order = Order(createdBy = "Gatling",
-            items = mutableListOf(
-                Item(
-                product = "umidificador",
-                price = price,
-                quantity = quantity
+        val numItems = rand.nextInt(1, 5)
+        val items = (1..numItems).map {
+            SalesOrderRequest(
+                numItem = it,
+                productId = "Product $it",
+                price = BigDecimal.valueOf(rand.nextDouble(10.0, 100.0)).setScale(2, RoundingMode.HALF_UP),
+                quantity = rand.nextInt(1, 10),
+                createdBy = "Gatling"
             )
-            )
-        )
-
-        return order.toJson();
+        }
+        val json = objectMapper.writeValueAsString(items)
+        //println(json)
+        return json
     }
 
+    private val scn = scenario("Sales Order Simulation").exec(createOrder)
 
     init {
-
-        val steps = listOf(
-            constantUsersPerSec(4.0).during(5),
-            constantUsersPerSec(4.0).during(10).randomized(),
-            constantUsersPerSec(60.0).during(3600).randomized(),
-        )
-
-        val scenario: ScenarioBuilder = scenario("Orders Scenario").exec(execs)
-
         setUp(
-            scenario.injectOpen(steps)
-        )
-            .protocols(httpProtocol)
+            scn.injectOpen(
+                constantUsersPerSec(10.0).during(60)
+            )
+        ).protocols(httpProtocol)
     }
-
 }
+
+data class SalesOrderRequest(
+    @JsonProperty("num_item")
+    val numItem: Int,
+    @JsonProperty("product_id")
+    val productId: String,
+    val price: BigDecimal,
+    val quantity: Int,
+    @JsonProperty("created_by")
+    val createdBy: String
+)
