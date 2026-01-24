@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>__GROUP_ID__</groupId>
+        <artifactId>__ARTIFACT_ID__</artifactId>
+        <version>__VERSION__</version>
+    </parent>
+
+    <artifactId>__ARTIFACT_ID__-database</artifactId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- This module contains database migration scripts (e.g., Flyway) -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+            <version>10.21.0</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- The app module will have this as a dependency to run migrations on startup -->
+    </dependencies>
+
+</project>

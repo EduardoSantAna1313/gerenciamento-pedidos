@@ -1,0 +1,46 @@
+package __GROUP_ID__.infra.rest.v1
+
+import __GROUP_ID__.domain.__EntityName__
+import __GROUP_ID__.service.__EntityName__Service
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import java.net.URI
+
+// A basic DTO for the request. In a real scenario, this would be more detailed.
+data class __EntityName__Request(val name: String) {
+    fun toDomain() = __EntityName__(name = this.name)
+}
+
+// A basic DTO for the response.
+data class __EntityName__Response(val id: java.util.UUID, val name: String) {
+    companion object {
+        fun fromDomain(__entityName__: __EntityName__) = __EntityName__Response(
+            id = __entityName__.id,
+            name = __entityName__.name
+        )
+    }
+}
+
+
+@RestController
+@RequestMapping("/v1/__ENTITY_NAME_PLURAL_SNAKE_CASE__")
+class __EntityName__Controller(
+    private val __entityName__Service: __EntityName__Service
+) {
+
+    @PostMapping
+    fun create(@RequestBody request: __EntityName__Request): ResponseEntity<*> {
+        val domainObj = request.toDomain()
+        val createdObj = __entityName__Service.create(domainObj)
+        val response = __EntityName__Response.fromDomain(createdObj)
+        return ResponseEntity.created(URI.create("/v1/__ENTITY_NAME_PLURAL_SNAKE_CASE__/${response.id}")).body(response)
+    }
+
+    @GetMapping("/{id}")
+    fun findById(@PathVariable id: java.util.UUID): ResponseEntity<__EntityName__Response> {
+        val domainObj = __entityName__Service.findById(id)
+        return domainObj?.let {
+            ResponseEntity.ok(__EntityName__Response.fromDomain(it))
+        } ?: ResponseEntity.notFound().build()
+    }
+}

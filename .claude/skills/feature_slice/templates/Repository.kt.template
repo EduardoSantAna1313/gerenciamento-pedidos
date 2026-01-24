@@ -1,0 +1,9 @@
+package __GROUP_ID__.repository
+
+import __GROUP_ID__.domain.__EntityName__
+import org.springframework.data.jpa.repository.JpaRepository
+import java.util.UUID
+
+interface __EntityName__Repository : JpaRepository<__EntityName__, UUID> {
+    // Define custom query methods here
+}

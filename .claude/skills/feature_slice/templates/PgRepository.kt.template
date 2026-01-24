@@ -1,0 +1,10 @@
+package __GROUP_ID__.adapters.repository
+
+import __GROUP_ID__.repository.__EntityName__Repository
+import org.springframework.stereotype.Repository
+
+@Repository
+interface Pg__EntityName__Repository : __EntityName__Repository {
+    // This interface is a marker for Spring Data JPA to create the implementation.
+    // It can be extended with native queries if needed.
+}

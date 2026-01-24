@@ -1,0 +1,22 @@
+package __GROUP_ID__.service
+
+import __GROUP_ID__.domain.__EntityName__
+import __GROUP_ID__.repository.__EntityName__Repository
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+
+@Service
+class __EntityName__Service(
+    private val __entityName__Repository: __EntityName__Repository
+) {
+
+    @Transactional
+    fun create(__entityName__: __EntityName__): __EntityName__ {
+        // Add business logic here before saving
+        return __entityName__Repository.save(__entityName__)
+    }
+
+    fun findById(id: java.util.UUID): __EntityName__? {
+        return __entityName__Repository.findById(id).orElse(null)
+    }
+}

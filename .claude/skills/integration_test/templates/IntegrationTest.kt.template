@@ -1,0 +1,42 @@
+package __GROUP_ID__.service
+
+import __GROUP_ID__.base.BaseIntegrationTest
+import __GROUP_ID__.domain.__EntityName__
+import __GROUP_ID__.repository.__EntityName__Repository
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
+
+internal class __EntityName__ServiceTest : BaseIntegrationTest() {
+
+    @Autowired
+    private lateinit var service: __EntityName__Service
+
+    @Autowired
+    private lateinit var repository: __EntityName__Repository
+
+    @BeforeEach
+    fun setUp() {
+        repository.deleteAll()
+    }
+
+    @Test
+    @DisplayName("Create and retrieve an entity")
+    fun shouldCreateAndRetrieveEntity() {
+        // Arrange
+        val newEntity = __EntityName__(name = "Test Entity")
+
+        // Act
+        val createdEntity = service.create(newEntity)
+
+        // Assert
+        assertNotNull(createdEntity.id)
+        assertEquals("Test Entity", createdEntity.name)
+
+        val foundEntity = service.findById(createdEntity.id)
+        assertNotNull(foundEntity)
+        assertEquals(createdEntity.id, foundEntity!!.id)
+    }
+}
